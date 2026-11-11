@@ -1,0 +1,774 @@
+---
+import Base from '../layouts/Base.astro';
+import ContactSection from '../components/ContactSection.astro';
+import { company, founder, product } from '../config/company';
+import { emptyValues, sendContactEmail, validateContact, type ContactState } from '../lib/contact';
+
+// ── Contact form ──────────────────────────────────────────────────────────
+// The form posts back to this page. Success redirects (so a refresh never
+// resends it); problems re-render the page with the entered values and errors.
+let contact: ContactState = {
+  status: Astro.url.searchParams.get('sent') === '1' ? 'sent' : 'idle',
+  values: emptyValues,
+  errors: {},
+};
+
+if (Astro.request.method === 'POST') {
+  const data = await Astro.request.formData().catch(() => undefined);
+  if (!data) {
+    contact = { status: 'invalid', values: emptyValues, errors: { message: 'The form could not be read. Please try again.' } };
+    Astro.response.status = 400;
+  } else {
+    const { values, errors, spam } = validateContact(data);
+    if (spam) {
+      // Pretend it worked so bots learn nothing, but send nothing.
+      return Astro.redirect('/?sent=1#contact', 303);
+    }
+    if (Object.keys(errors).length > 0) {
+      contact = { status: 'invalid', values, errors };
+      Astro.response.status = 400;
+    } else {
+      let ip = 'unknown';
+      try {
+        ip = Astro.clientAddress;
+      } catch {
+        // Not every host exposes the visitor's address.
+      }
+      const result = await sendContactEmail(values, {
+        ip,
+        userAgent: Astro.request.headers.get('user-agent') ?? 'unknown',
+        pageUrl: new URL('/', Astro.url).href,
+        submittedAt: new Date(),
+      });
+      if (result.ok) {
+        return Astro.redirect('/?sent=1#contact', 303);
+      }
+      contact = { status: result.reason === 'unconfigured' ? 'unavailable' : 'failed', values, errors: {} };
+      Astro.response.status = 503;
+    }
+  }
+}
+
+// Machine-readable identity for crawlers and compliance tooling.
+// Built only from the facts in src/config/company.ts.
+const organization = {
+  '@type': 'Organization',
+  name: company.legalName,
+  legalName: company.legalName,
+  ...(Astro.site ? { url: Astro.site.href } : {}),
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: company.address.street,
+    addressLocality: company.address.city,
+    addressRegion: company.address.region,
+    postalCode: company.address.postalCode,
+    addressCountry: company.address.country,
+  },
+  brand: { '@type': 'Brand', name: product.name, url: product.url },
+  ...(company.contactEmail
+    ? { contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', email: company.contactEmail } }
+    : {}),
+};
+
+const person = {
+  '@type': 'Person',
+  name: founder.name,
+  url: founder.websiteUrl,
+  sameAs: [founder.linkedinUrl],
+  worksFor: { '@type': 'Organization', name: company.legalName },
+};
+---
+
+<Base
+  title="Marketing Chains LLC | Search & AI Analytics"
+  description="Marketing Chains LLC designs, builds, and operates advanced data platforms for search and AI visibility. Sole owner and operator of Visifluent (visifluent.com)."
+  path="/"
+>
+  <script slot="head" is:inline type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': [organization, person] })} />
+
+  {/* ───────── 1 · Hero & core mission ───────── */}
+  <section class="hero theme-dark" aria-labelledby="hero-title">
+    <div class="container hero__layout">
+      <div class="hero__copy">
+        <p class="eyebrow">Corporate overview</p>
+        <h1 id="hero-title">
+          <span class="hero__kicker">Marketing Chains LLC:</span>
+          Building the Future of Search &amp; AI Analytics
+        </h1>
+        <p class="hero__lede">
+          We design, build, and operate advanced data platforms that help modern businesses maximize their visibility across search networks and generative AI engines.
+        </p>
+      </div>
+
+      {/* Decorative: nodes linked in a chain, trending up. No data is implied. */}
+      <div class="hero__art" aria-hidden="true">
+        <svg viewBox="0 0 560 460">
+          <defs>
+            <linearGradient id="hero-area" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#3a8dff" stop-opacity="0.32"></stop>
+              <stop offset="1" stop-color="#3a8dff" stop-opacity="0"></stop>
+            </linearGradient>
+            <linearGradient id="hero-line" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#3a8dff"></stop>
+              <stop offset="1" stop-color="#9ccaff"></stop>
+            </linearGradient>
+          </defs>
+
+          <rect x="0.5" y="0.5" width="559" height="459" rx="20" fill="#fff" fill-opacity="0.03" stroke="#fff" stroke-opacity="0.12"></rect>
+
+          <circle cx="32" cy="36" r="4" fill="#3a8dff"></circle>
+          <rect x="44" y="33" width="64" height="6" rx="3" fill="#fff" fill-opacity="0.22"></rect>
+          <circle cx="132" cy="36" r="4" fill="#a0aec2"></circle>
+          <rect x="144" y="33" width="48" height="6" rx="3" fill="#fff" fill-opacity="0.14"></rect>
+
+          <g stroke="#fff" stroke-opacity="0.09" stroke-dasharray="3 7">
+            <line x1="28" y1="100" x2="532" y2="100"></line>
+            <line x1="28" y1="180" x2="532" y2="180"></line>
+            <line x1="28" y1="260" x2="532" y2="260"></line>
+            <line x1="28" y1="340" x2="532" y2="340"></line>
+          </g>
+          <line x1="28" y1="400" x2="532" y2="400" stroke="#fff" stroke-opacity="0.18"></line>
+          <g stroke="#fff" stroke-opacity="0.22">
+            <line x1="28" y1="400" x2="28" y2="407"></line>
+            <line x1="112" y1="400" x2="112" y2="407"></line>
+            <line x1="196" y1="400" x2="196" y2="407"></line>
+            <line x1="280" y1="400" x2="280" y2="407"></line>
+            <line x1="364" y1="400" x2="364" y2="407"></line>
+            <line x1="448" y1="400" x2="448" y2="407"></line>
+            <line x1="532" y1="400" x2="532" y2="407"></line>
+          </g>
+
+          <polyline
+            points="28,352 112,340 196,348 280,308 364,314 448,276 532,262"
+            fill="none"
+            stroke="#a0aec2"
+            stroke-opacity="0.6"
+            stroke-width="2"
+            stroke-linejoin="round"
+            stroke-linecap="round"></polyline>
+
+          <path d="M28 384 L112 348 L196 322 L280 262 L364 236 L448 170 L532 96 V400 H28 Z" fill="url(#hero-area)"></path>
+          <line x1="532" y1="96" x2="532" y2="400" stroke="#3a8dff" stroke-opacity="0.4" stroke-dasharray="3 5"></line>
+          <polyline
+            points="28,384 112,348 196,322 280,262 364,236 448,170 532,96"
+            fill="none"
+            stroke="url(#hero-line)"
+            stroke-width="3"
+            stroke-linejoin="round"
+            stroke-linecap="round"></polyline>
+
+          <g fill="#0b1728" stroke="#6db0ff" stroke-width="2">
+            <circle cx="28" cy="384" r="6"></circle>
+            <circle cx="112" cy="348" r="6"></circle>
+            <circle cx="196" cy="322" r="6"></circle>
+            <circle cx="280" cy="262" r="6"></circle>
+            <circle cx="364" cy="236" r="6"></circle>
+            <circle cx="448" cy="170" r="6"></circle>
+          </g>
+          <circle class="hero__pulse" cx="532" cy="96" r="18" fill="#3a8dff" fill-opacity="0.35"></circle>
+          <circle cx="532" cy="96" r="9" fill="#0b1728" stroke="#9ccaff" stroke-width="2.5"></circle>
+          <circle cx="532" cy="96" r="3.5" fill="#9ccaff"></circle>
+        </svg>
+      </div>
+    </div>
+
+    <div class="container">
+      <dl class="facts">
+        <div>
+          <dt>Legal entity</dt>
+          <dd>{company.legalName}</dd>
+        </div>
+        <div>
+          <dt>Registered in</dt>
+          <dd>{company.jurisdiction}</dd>
+        </div>
+        <div>
+          <dt>Flagship product</dt>
+          <dd>{product.name} (<a href={product.url}>{product.domain}</a>)</dd>
+        </div>
+        <div>
+          <dt>Revenue model</dt>
+          <dd>Subscriptions &amp; services</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  {/* ───────── 2 · Flagship product ───────── */}
+  <section id="platform" class="section platform theme-light" aria-labelledby="platform-title">
+    <div class="container">
+      <p class="section-label"><span>01</span> Platform</p>
+
+      <div class="product-wrap">
+        <article class="product theme-dark">
+          <div class="product__main">
+            <h2 id="platform-title">Our Flagship Platform: Visifluent</h2>
+            <p>
+              Marketing Chains LLC is the sole owner, developer, and operator of Visifluent (visifluent.com). Visifluent is an all-in-one B2B Software-as-a-Service (SaaS) platform built to audit websites, track daily Google keyword rankings, and monitor brand visibility across top AI search models including ChatGPT, Perplexity, Claude, and Gemini.
+            </p>
+            <a class="button" href={product.url}>
+              Visit Visifluent.com
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M7 17 17 7"></path>
+                <path d="M8 7h9v9"></path>
+              </svg>
+            </a>
+          </div>
+
+          <div class="product__record">
+            <h3>Ownership &amp; operation</h3>
+            <dl class="record">
+              <div>
+                <dt>Product</dt>
+                <dd>{product.name}</dd>
+              </div>
+              <div>
+                <dt>Website</dt>
+                <dd>{product.domain}</dd>
+              </div>
+              <div>
+                <dt>Owner</dt>
+                <dd>{company.legalName}</dd>
+              </div>
+              <div>
+                <dt>Developer</dt>
+                <dd>{company.legalName}</dd>
+              </div>
+              <div>
+                <dt>Operator</dt>
+                <dd>{company.legalName}</dd>
+              </div>
+              <div>
+                <dt>Billed by</dt>
+                <dd>{company.legalName}</dd>
+              </div>
+            </dl>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {/* ───────── 3 · Business & monetization model ───────── */}
+  <section id="how-we-operate" class="section operate theme-light" aria-labelledby="operate-title">
+    <div class="container">
+      <p class="section-label"><span>02</span> Operations</p>
+      <h2 id="operate-title">How We Operate</h2>
+
+      <ul class="operate__grid" role="list">
+        <li class="card">
+          <div class="card__icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+            </svg>
+          </div>
+          <p class="card__text">
+            <strong>B2B SaaS Delivery:</strong> Our entity provides instant cloud-based software tools directly to business clients globally.
+          </p>
+        </li>
+        <li class="card">
+          <div class="card__icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 1l4 4-4 4"></path>
+              <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+              <path d="M7 23l-4-4 4-4"></path>
+              <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+            </svg>
+          </div>
+          <p class="card__text">
+            <strong>Transparent Monetization:</strong> Marketing Chains LLC generates revenue through transparent, recurring monthly and annual software subscription models, and through SEO and website services, with training and courses launching soon. Marketing Chains LLC sells and bills for all of them.
+          </p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  {/* ───────── 4 · Leadership ───────── */}
+  <section id="leadership" class="section leadership theme-light" aria-labelledby="leadership-title">
+    <div class="container">
+      <p class="section-label"><span>03</span> Leadership</p>
+
+      <div class="leadership__layout">
+        <div class="leadership__copy">
+          <h2 id="leadership-title">Who runs the company</h2>
+          <p>
+            {founder.name} owns and runs {company.legalName}, a company registered in {company.jurisdiction}, and built {product.name} ({product.domain}), the platform that {company.legalName} owns and operates. {founder.name} does SEO and builds websites.
+          </p>
+        </div>
+
+        <div class="profile theme-dark">
+          <h3>{founder.name}</h3>
+          <ul role="list">
+            <li>
+              <a href={founder.websiteUrl}>
+                <span>
+                  <span class="profile__label">Personal website</span>
+                  <span class="profile__value">{founder.websiteLabel}</span>
+                </span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M7 17 17 7"></path>
+                  <path d="M8 7h9v9"></path>
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a href={founder.linkedinUrl}>
+                <span>
+                  <span class="profile__label">LinkedIn</span>
+                  <span class="profile__value">{founder.linkedinLabel}</span>
+                </span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M7 17 17 7"></path>
+                  <path d="M8 7h9v9"></path>
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a href={founder.communityUrl}>
+                <span>
+                  <span class="profile__label">Community on Skool</span>
+                  <span class="profile__value">{founder.communityName}</span>
+                </span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M7 17 17 7"></path>
+                  <path d="M8 7h9v9"></path>
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ───────── 5 · Contact ───────── */}
+  <ContactSection state={contact} />
+</Base>
+
+<style>
+  .section {
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  /* ───── Hero ───── */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    background:
+      radial-gradient(56rem 30rem at 88% -8%, rgb(58 141 255 / 0.22), transparent 62%),
+      radial-gradient(44rem 26rem at -6% 108%, rgb(27 58 95 / 0.55), transparent 66%),
+      linear-gradient(180deg, var(--navy-975) 0%, var(--navy-900) 100%);
+  }
+
+  /* Blueprint grid that fades out towards the edges. */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+    background-position: center top;
+    background-size: 4rem 4rem;
+    -webkit-mask-image: radial-gradient(75% 90% at 72% 18%, #000 0%, transparent 100%);
+    mask-image: radial-gradient(75% 90% at 72% 18%, #000 0%, transparent 100%);
+  }
+
+  .hero__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    align-items: center;
+    gap: clamp(2rem, 5vw, 5rem);
+    padding-block: clamp(3.5rem, 9vw, 7rem) clamp(3rem, 6vw, 5rem);
+  }
+
+  h1 {
+    margin-top: 1.5rem;
+    font-size: clamp(2.4rem, 1rem + 4.4vw, 4.25rem);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+  }
+
+  /* The company name leads the headline as a smaller accent line. */
+  .hero__kicker {
+    display: block;
+    margin-bottom: 0.65em;
+    color: var(--accent-text);
+    font-size: 0.42em;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  .hero__lede {
+    max-width: 38rem;
+    margin-top: 1.75rem;
+    font-size: clamp(1.125rem, 1rem + 0.5vw, 1.3125rem);
+    line-height: 1.6;
+  }
+
+  /*
+   * The shadow sits on the wrapper, not on the <svg> as a filter: a filter on a
+   * parent of the pulsing node would force the whole graphic to repaint on
+   * every animation frame.
+   */
+  .hero__art {
+    justify-self: end;
+    width: min(100%, 31rem);
+    border-radius: 1.1rem;
+    box-shadow: 0 40px 60px -30px rgb(0 0 0 / 0.5);
+  }
+
+  .hero__art svg {
+    width: 100%;
+    height: auto;
+  }
+
+  .hero__pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__pulse {
+      animation: hero-pulse 2.8s ease-out infinite;
+    }
+  }
+
+  @keyframes hero-pulse {
+    from {
+      opacity: 1;
+      transform: scale(0.55);
+    }
+    to {
+      opacity: 0;
+      transform: scale(1.35);
+    }
+  }
+
+  /* Entity snapshot: restates facts from the copy for a first-glance read. */
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+  }
+
+  .facts > div {
+    padding: 1.25rem 1.5rem 1.75rem 0;
+  }
+
+  .facts dt {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .facts dd {
+    margin-top: 0.4rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .facts a {
+    text-decoration-color: rgb(255 255 255 / 0.35);
+  }
+
+  .facts a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* ───── Flagship product ───── */
+  .platform {
+    background: var(--grey-100);
+  }
+
+  .product-wrap {
+    container-type: inline-size;
+    margin-top: 1.5rem;
+  }
+
+  .product {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
+    overflow: hidden;
+    border-radius: 1.25rem;
+    background:
+      radial-gradient(40rem 24rem at 100% 0%, rgb(58 141 255 / 0.16), transparent 60%),
+      linear-gradient(135deg, var(--navy-900), var(--navy-850));
+    box-shadow:
+      0 40px 70px -40px rgb(8 17 31 / 0.6),
+      0 0 0 1px rgb(8 17 31 / 0.9);
+  }
+
+  .product__main {
+    padding: clamp(1.75rem, 4.5vw, 3.5rem);
+  }
+
+  .product__main h2 {
+    font-size: clamp(1.875rem, 1.2rem + 2.2vw, 2.75rem);
+  }
+
+  .product__main p {
+    max-width: 38rem;
+    margin-top: 1.25rem;
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+
+  .product__main .button {
+    margin-top: 2rem;
+  }
+
+  .product__record {
+    padding: clamp(1.75rem, 4vw, 2.5rem);
+    border-inline-start: 1px solid var(--line);
+    background: rgb(255 255 255 / 0.035);
+  }
+
+  .product__record h3 {
+    color: var(--accent-text);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .record {
+    margin-top: 1rem;
+  }
+
+  .record > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.8rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .record dt {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+  }
+
+  .record dd {
+    color: var(--text);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-align: right;
+  }
+
+  /* Stack the two panels whenever the card itself is narrow. */
+  @container (max-width: 52rem) {
+    .product {
+      grid-template-columns: 1fr;
+    }
+
+    .product__record {
+      border-inline-start: 0;
+      border-block-start: 1px solid var(--line);
+    }
+  }
+
+  /* ───── How we operate ───── */
+  .operate {
+    background: var(--white);
+  }
+
+  .operate h2 {
+    margin-top: 1.25rem;
+    font-size: clamp(1.875rem, 1.2rem + 2.2vw, 2.75rem);
+  }
+
+  .operate__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .card {
+    position: relative;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border: 1px solid var(--grey-200);
+    border-radius: 1rem;
+    background: var(--grey-50);
+  }
+
+  /* Thin accent rule across the top edge of each card. */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: -1px 2rem auto;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: linear-gradient(90deg, var(--blue-500), rgb(58 141 255 / 0));
+  }
+
+  .card__icon {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.75rem;
+    background: var(--navy-900);
+    color: var(--blue-400);
+  }
+
+  .card__text {
+    margin-top: 1.5rem;
+    font-size: clamp(1.125rem, 1rem + 0.45vw, 1.3125rem);
+    line-height: 1.6;
+  }
+
+  .card__text strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* ───── Leadership ───── */
+  .leadership {
+    background: var(--grey-100);
+  }
+
+  .leadership__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 27rem);
+    align-items: center;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    margin-top: 1.25rem;
+  }
+
+  .leadership h2 {
+    font-size: clamp(1.875rem, 1.2rem + 2.2vw, 2.75rem);
+  }
+
+  .leadership__copy p {
+    max-width: 36rem;
+    margin-top: 1.25rem;
+    font-size: 1.1875rem;
+    line-height: 1.7;
+  }
+
+  .profile {
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border-radius: 1.25rem;
+    background:
+      radial-gradient(30rem 18rem at 100% 0%, rgb(58 141 255 / 0.16), transparent 60%),
+      linear-gradient(135deg, var(--navy-900), var(--navy-850));
+    box-shadow:
+      0 40px 70px -40px rgb(8 17 31 / 0.6),
+      0 0 0 1px rgb(8 17 31 / 0.9);
+  }
+
+  .profile h3 {
+    font-size: 1.375rem;
+  }
+
+  .profile ul {
+    margin-top: 0.75rem;
+  }
+
+  .profile li + li {
+    border-top: 1px solid var(--line);
+  }
+
+  .profile a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .profile__label {
+    display: block;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .profile__value {
+    display: block;
+    margin-top: 0.25rem;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+
+  .profile svg {
+    flex: none;
+    color: var(--accent-text);
+    transition: transform 0.15s ease;
+  }
+
+  .profile a:hover .profile__value {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  .profile a:hover svg {
+    transform: translate(2px, -2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .profile svg {
+      transition: none;
+    }
+
+    .profile a:hover svg {
+      transform: none;
+    }
+  }
+
+  /* ───── Responsive ───── */
+  @media (max-width: 64rem) {
+    .hero__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .hero__art {
+      display: none;
+    }
+
+    .facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 48rem) {
+    .operate__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 56rem) {
+    .leadership__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .facts {
+      grid-template-columns: 1fr;
+    }
+
+    .facts > div {
+      padding-block: 1rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .facts > div:first-child {
+      padding-top: 1.25rem;
+      border-top: 0;
+    }
+  }
+</style>

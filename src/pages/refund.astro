@@ -1,0 +1,104 @@
+---
+// DRAFT for review by qualified legal counsel before relying on it.
+// Mirrors the cancellation and refund terms published at visifluent.com/terms
+// (last updated 9 November 2026) and sections 8 to 11 of /terms on this site.
+// The terms for SEO and website services are defaults chosen for this site, not
+// taken from visifluent.com. Keep all three in sync, and bump
+// `legalPagesUpdated` in src/config/company.ts.
+import Legal from '../layouts/Legal.astro';
+import LegalContact from '../components/LegalContact.astro';
+import { company, product } from '../config/company';
+---
+
+<Legal
+  title="Refund & Cancellation Policy"
+  description="How to cancel a Visifluent subscription, refund terms for Visifluent, courses and SEO and website services, how long refunds take, and what to do about an incorrect charge."
+  path="/refund"
+>
+  <h2>At a glance</h2>
+  <ul>
+    <li>You can cancel at any time, in Settings or by email. Your plan stays active until the end of the period you paid for.</li>
+    <li>If you ask within 14 days of your first payment for a plan, we refund that payment in full.</li>
+    <li>After 14 days we do not refund a period you have already paid for, but you can cancel to stop the next renewal.</li>
+    <li>Refunds go back to the original card and usually take 5 to 10 business days.</li>
+  </ul>
+  <p>
+    This policy is part of our <a href="/terms">Terms &amp; Conditions</a> and matches the terms published at <a href={product.termsUrl}>{product.domain}/terms</a>. It covers {product.name}, which {company.legalName} owns, operates, and bills, our training and courses, and our SEO and website services.
+  </p>
+
+  <h2>Plans, billing, and renewal</h2>
+  <p>
+    {product.name} has a Free plan and paid plans. Current plans and prices are on the <a href={product.pricingUrl}>pricing page</a>. Paid plans may not yet be open to everyone, and nothing is charged unless you choose a paid plan and confirm the purchase.
+  </p>
+  <ul>
+    <li>Paid plans are billed in advance, in US dollars, monthly or yearly.</li>
+    <li>They renew automatically at the then-current price until you cancel.</li>
+    <li>If we change a price, we email you at least 30 days before it applies to your next renewal, and you can cancel first.</li>
+    <li>Prices exclude taxes. Sales tax or VAT is added where required and shown before you confirm.</li>
+    <li>Payments are processed by Stripe. Your card details go to Stripe, and we do not see or store card numbers.</li>
+  </ul>
+
+  <h2>Delivery</h2>
+  <p>
+    {product.name}, training, and courses are delivered online. Nothing is shipped, so there are no shipping charges or return procedures.
+  </p>
+
+  <h2>Training and courses</h2>
+  <p>
+    Training and courses are launching soon, and nothing is charged until they are available. {company.legalName} sells them through its community on Skool, where you pay by credit card. Skool and its payment provider process the payment, and we do not see or store card numbers. The same terms apply as for {product.name}:
+  </p>
+  <ul>
+    <li>If you ask us within 14 days of your first payment, we refund that payment in full.</li>
+    <li>After 14 days we do not refund a period you have already paid for. Where a purchase renews, you can cancel at any time and your access continues until the end of the period you paid for.</li>
+    <li>Refunds go back to the original card and usually take 5 to 10 business days.</li>
+    <li>If you think you were charged incorrectly, contact us before disputing the charge with your bank.</li>
+  </ul>
+
+  <h2>SEO and website services</h2>
+  <p>
+    Cancellation and refunds for SEO and website services are set out in the proposal or agreement for the work. Unless it says otherwise:
+  </p>
+  <ul>
+    <li>You can end an engagement by written notice.</li>
+    <li>We refund prepaid fees for work that has not started.</li>
+    <li>Fees for work already completed are not refundable.</li>
+    <li>If you think you were charged incorrectly, contact us before disputing the charge with your bank.</li>
+  </ul>
+
+  <h2>How to cancel</h2>
+  <p>
+    Cancel at any time in Settings, or by emailing us (see Contact below). Your plan stays active until the end of the period you paid for, then moves to the Free plan. Cancelling does not delete your data.
+  </p>
+
+  <h2>Refunds</h2>
+  <ul>
+    <li>If you ask us within 14 days of your first payment for a plan, we refund that payment in full.</li>
+    <li>After 14 days we do not refund a period you have already paid for. You can still cancel to stop renewal.</li>
+    <li>Refunds go back to the original card and usually take 5 to 10 business days.</li>
+    <li>To ask for a refund, email us (see Contact below).</li>
+  </ul>
+
+  <h2>Incorrect charges and disputes</h2>
+  <p>
+    If you think you were charged incorrectly, contact us before disputing the charge with your bank. We reply within two business days and refund any charge that was our error.
+  </p>
+
+  <h2>Failed payments</h2>
+  <p>
+    If a payment fails, your account may move to the Free plan. Your data is kept.
+  </p>
+
+  <h2>Deleting your account</h2>
+  <p>
+    Deleting your account cancels a paid plan. The paid period is not refunded, except as described above.
+  </p>
+
+  <h2>Your legal rights</h2>
+  <p>
+    If the law gives you a right to cancel or to a refund that this policy does not, that right stays.
+  </p>
+
+  <h2>Contact</h2>
+  <p>Questions about cancellations, refunds, or charges can be sent to:</p>
+  <LegalContact />
+</Legal>

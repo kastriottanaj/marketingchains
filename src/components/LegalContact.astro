@@ -1,0 +1,16 @@
+---
+import { company, registeredAddress } from '../config/company';
+---
+
+<address>
+  {company.legalName}<br />
+  Registered office (for legal notices): {registeredAddress}
+  {
+    company.contactEmail && (
+      <>
+        <br />
+        Email: <a href={`mailto:${company.contactEmail}`}>{company.contactEmail}</a> (we reply within two business days)
+      </>
+    )
+  }
+</address>

@@ -1,0 +1,12 @@
+# Caddy obtains and renews the HTTPS certificate for SITE_DOMAIN automatically,
+# compresses responses, and forwards requests to the app container. It also
+# sends X-Forwarded-Proto/Host/For, which the app trusts for this domain only.
+{$SITE_DOMAIN} {
+	encode zstd gzip
+	reverse_proxy {$UPSTREAM:app:4321}
+}
+
+# Optional: if www.<domain> also points at this server, uncomment to redirect it.
+# www.{$SITE_DOMAIN} {
+# 	redir https://{$SITE_DOMAIN}{uri} permanent
+# }

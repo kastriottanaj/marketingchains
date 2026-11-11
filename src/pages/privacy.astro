@@ -1,0 +1,201 @@
+---
+// DRAFT for review by qualified legal counsel before relying on it.
+// The Visifluent parts mirror the Privacy Policy published at visifluent.com/privacy
+// (last updated 9 November 2026): data collected, Google data use, providers,
+// retention, deletion, rights. The contact-form and SMS parts are specific to
+// this site and must match src/lib/contact.ts. Keep the documents in sync when
+// any changes, and bump `legalPagesUpdated` in src/config/company.ts.
+// The statement that THIS website sets no cookies and uses no trackers
+// describes this site as built; update it if you add analytics.
+import Legal from '../layouts/Legal.astro';
+import LegalContact from '../components/LegalContact.astro';
+import { company, product, registeredAddress } from '../config/company';
+---
+
+<Legal
+  title="Privacy Policy"
+  description="How Marketing Chains LLC handles personal information on its website, contact form, Visifluent platform, and courses: what we collect, who we share it with, retention, and your rights. Mobile numbers and SMS consent are never sold or shared for marketing."
+  path="/privacy"
+>
+  <h2>1. Who we are and what this policy covers</h2>
+  <p>
+    {company.legalName} is a limited liability company registered in {company.jurisdiction}, with its registered office at {registeredAddress} (“Marketing Chains,” “we,” or “us”). We operate this website and {product.name} ({product.domain}), and we decide how personal information is used in both.
+  </p>
+  <p>
+    This policy covers this website, the {product.name} service, and our training and courses. The policy for the service is also published at <a href={product.privacyUrl}>{product.domain}/privacy</a>. The two are meant to say the same thing. If they ever differ, the version at {product.domain} governs information processed through {product.name}.
+  </p>
+
+  <h2>2. Information we collect</h2>
+  <h3>On this website</h3>
+  <p>
+    This website has no accounts or sign-ups. If you use the contact form, we collect what you enter: your name, email address, optional phone number, the service you are interested in, and your message. If you tick the consent box, we also keep a record of your consent: the date and time, the wording you saw, your IP address, and your browser type. We use this information only to answer you and to keep proof of your consent.
+  </p>
+  <p>
+    Like most web servers, the infrastructure that hosts this website may also record standard log data such as your IP address, browser type, the page requested, and the time of the request. This website does not set cookies and does not use analytics, advertising, or social-media tracking scripts.
+  </p>
+
+  <h3>In {product.name}</h3>
+  <ul>
+    <li><strong>Google sign-in.</strong> Your name, email address, profile picture, and Google’s stable account ID. Sign-in shares only these; other connections are a separate, optional step.</li>
+    <li><strong>Your content.</strong> The websites you add, audit and PageSpeed results, tracked keywords, rankings and competitors, questions and answers from AI engines, tasks, notes, files, content drafts, knowledge-base documents, report branding, and your client groupings and settings.</li>
+    <li><strong>Teammates.</strong> On plans with seats, the email address you invite. Teammates can see and change everything in the owner’s account, and the owner sees a teammate’s Google name, email, photo, and last visit.</li>
+    <li><strong>Connected services.</strong> Data from Google Search Console and Google Analytics 4 (both read-only), Google Merchant Center, and Bing Webmaster Tools, if you connect them. Connection credentials are stored encrypted.</li>
+    <li><strong>IndexNow.</strong> Per-site keys, hosts, and records of the URLs you submit. We keep only the newest thirty submissions per site.</li>
+    <li><strong>Payments.</strong> Card payments for paid plans are handled by Stripe. Your card details go to Stripe, and we do not see or store card numbers.</li>
+    <li><strong>Technical data and usage counters.</strong> Server logs that may include IP addresses and browser descriptions, kept for days, and daily usage counters tied to a one-way hash of your Google account ID (or to your IP address on public forms).</li>
+    <li><strong>Waitlist and email list.</strong> The email address you give us if you join either.</li>
+  </ul>
+  <p>
+    Our crawler, VisifluentAuditBot, reads only public web pages and follows each site’s robots.txt. See the <a href={product.crawlerUrl}>crawler page</a>.
+  </p>
+
+  <h3>In training and courses</h3>
+  <p>
+    Training and courses are launching soon, and members join through a community hosted on Skool. When you buy and join, we receive the information Skool shares with community owners, such as your name, email address, and activity in the community. You pay by credit card at Skool’s checkout. Skool and its payment provider, Stripe, process the payment, and we do not see or store card numbers. Skool collects and uses your information under its own terms and privacy policy.
+  </p>
+
+  <h3>For SEO and website services</h3>
+  <p>
+    If you hire us for SEO or website work, we collect the contact details, business information, and access you give us so that we can do the work and invoice you.
+  </p>
+
+  <h2>3. Mobile numbers and SMS consent</h2>
+  <p>
+    If you give us a mobile phone number and tick the consent box, we may contact you by SMS with communications and service updates, as described in section 12 of our <a href="/terms">Terms &amp; Conditions</a>. Message and data rates may apply, and you can reply STOP at any time to opt out.
+  </p>
+  <p>
+    <strong>We do not sell, rent, or share mobile phone numbers or opt-in consent data with third parties or affiliates for marketing or promotional purposes.</strong> SMS opt-in data and consent are not shared with any third party for its own marketing. We share them only with service providers that help us deliver messages and operate the website, only for that purpose, or where the law requires it.
+  </p>
+
+  <h2>4. Google user data</h2>
+  <p>
+    {product.name}’s use of information received from Google APIs follows the Google API Services User Data Policy, including its Limited Use requirements.
+  </p>
+  <ul>
+    <li><strong>Search Console and Analytics</strong> are connected read-only, as separate permissions. Search Console data is used to show your data and to produce reports, opportunities, and suggestions; some results, such as before-and-after measurements, are saved. Analytics reports are fetched when you open the Dashboard or use the SEO Assistant, held in server memory for a few minutes, and not saved. We save only which property you chose for each website.</li>
+    <li><strong>Merchant Center</strong> offers no read-only permission, so {product.name} requests a permission that can manage product listings but only reads from it. Product, problem, and performance data is fetched for the Shopping page and the SEO Assistant and is not saved, except the text of tasks you create from a problem.</li>
+    <li><strong>Bing Webmaster Tools.</strong> We request only the sites listed under the login you connect.</li>
+  </ul>
+  <p>
+    {product.name} never changes anything in your accounts, your store, or on your website.
+  </p>
+
+  <h2>5. Cookies and similar technologies</h2>
+  <p>This website sets no cookies. On {product.domain}:</p>
+  <ul>
+    <li>Essential: a secure, HTTP-only sign-in cookie, short-lived sign-in state cookies (about ten minutes), and browser local storage for interface preferences.</li>
+    <li>Google Analytics, on public pages only. Without your consent it runs without cookies; with consent it sets cookies that last up to two years.</li>
+    <li>LinkedIn Insight Tag, on public pages only and only after you consent.</li>
+    <li>Local SEO maps load tiles from OpenStreetMap, which can see your IP address.</li>
+  </ul>
+  <p>You can change your choices at any time through “Cookie settings” on the {product.domain} home page.</p>
+
+  <h2>6. How we use information</h2>
+  <p>
+    We use information to provide and secure our services, to answer messages you send through the contact form, to show you your data and produce reports, to send alerts, scheduled reports, invitations, and notices you have asked for, to process payments, to provide training and courses, to answer your requests, to keep proof of consent, and to meet our legal obligations. We do not sell personal information, we do not use your account content for advertising, and we do not use it to train AI models.
+  </p>
+
+  <h2>7. Who receives information</h2>
+  <p>We share information only with the providers that help us run the website and our services:</p>
+  <table aria-label="Service providers">
+    <thead>
+      <tr>
+        <th scope="col">Provider</th>
+        <th scope="col">What it does for us</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Resend</th>
+        <td>Email: delivers contact-form messages to us, and sends alerts, scheduled PDF reports, teammate invitations, and sign-up notices for {product.name}.</td>
+      </tr>
+      <tr>
+        <th scope="row">Hetzner (Germany)</th>
+        <td>Hosting and database for {product.name}.</td>
+      </tr>
+      <tr>
+        <th scope="row">Backblaze (EU)</th>
+        <td>Encrypted database backups.</td>
+      </tr>
+      <tr>
+        <th scope="row">Google</th>
+        <td>Sign-in and the Search Console, Analytics, and Merchant Center data you choose to connect.</td>
+      </tr>
+      <tr>
+        <th scope="row">Microsoft (Bing Webmaster Tools)</th>
+        <td>Data from Bing, only if you connect it.</td>
+      </tr>
+      <tr>
+        <th scope="row">DataForSEO</th>
+        <td>Keyword, ranking, competitor, backlink, and AI-answer data. It receives search inputs, not names or email addresses.</td>
+      </tr>
+      <tr>
+        <th scope="row">Anthropic and OpenAI</th>
+        <td>Power the AI features. They receive the text needed for each answer, which can include your Search Console, Analytics, or Merchant Center data when you use the SEO Assistant. OpenAI requests are sent with its storage option off.</td>
+      </tr>
+      <tr>
+        <th scope="row">Stripe</th>
+        <td>Card payments for paid plans and, through Skool, for training and courses.</td>
+      </tr>
+      <tr>
+        <th scope="row">Skool</th>
+        <td>Hosts the training community and course content and processes member payments. Skool’s own terms and privacy policy apply to your account and activity there.</td>
+      </tr>
+      <tr>
+        <th scope="row">Google Analytics and LinkedIn</th>
+        <td>Measurement on public pages of {product.domain}; LinkedIn only with your consent.</td>
+      </tr>
+      <tr>
+        <th scope="row">IndexNow participants</th>
+        <td>Receive the URLs you choose to submit.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    None of these providers receives mobile numbers or opt-in consent data for its own marketing. We may also disclose information where the law requires it or to protect our rights.
+  </p>
+
+  <h2>8. Retention and deletion</h2>
+  <ul>
+    <li>Your account and content are kept until you delete your account or ask us to.</li>
+    <li>Deleting your account in Settings removes your data and withdraws the Search Console, Analytics, and Merchant Center permissions at Google.</li>
+    <li>Contact-form messages are kept for as long as we need to answer you and follow up.</li>
+    <li>Consent records are kept for as long as the law and mobile-carrier rules require us to be able to prove your consent.</li>
+    <li>Google Analytics keeps public-page measurement data for 14 months at most.</li>
+    <li>Encrypted backups are kept for up to 30 days and then expire.</li>
+    <li>Server logs are kept for days. Daily usage counters last about a day.</li>
+    <li>Waitlist and email-list entries are kept until we contact you about plans or you ask to be removed.</li>
+  </ul>
+
+  <h2>9. Your rights and choices</h2>
+  <p>
+    In {product.name} you can delete your account, disconnect Google or Bing, turn off alerts, stop scheduled reports, and change your cookie choices. You can reply STOP to any text message to stop SMS, and unsubscribe from emails. You can also email us to ask for access to, correction of, export of, or deletion of your information, including your contact-form messages and consent record. We answer within 30 days.
+  </p>
+  <p>
+    If you are in the EEA or the UK, you may also restrict or object to processing, receive your data in a portable format, withdraw consent, and complain to your data protection authority. If you live in California or another U.S. state with a privacy law, you may know, correct, and delete the information we hold about you, and we will not discriminate against you for doing so.
+  </p>
+
+  <h2>10. International processing</h2>
+  <p>
+    {product.name}’s servers and database are in Germany (EU). Some of the providers above may process information in other countries, including the United States, under safeguards such as the European Commission’s standard contractual clauses. {company.legalName} is a U.S. company.
+  </p>
+
+  <h2>11. Security</h2>
+  <p>
+    We store connection credentials and backups encrypted and use other reasonable technical and organizational measures to protect information, but no method of transmission or storage is completely secure. If a breach affects you, we will tell you as the law requires.
+  </p>
+
+  <h2>12. Children</h2>
+  <p>
+    The website and our services are for businesses and are not for anyone under 16. If we learn that a child has an account or has sent us information, we will delete it.
+  </p>
+
+  <h2>13. Changes to this policy</h2>
+  <p>
+    We may update this policy. The “Last updated” date at the top of this page shows when it last changed, and we will email you before changes that matter to you take effect.
+  </p>
+
+  <h2>14. Contact</h2>
+  <p>Privacy questions and requests can be sent to:</p>
+  <LegalContact />
+</Legal>

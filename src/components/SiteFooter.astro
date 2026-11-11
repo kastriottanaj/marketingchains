@@ -1,0 +1,94 @@
+---
+import Brand from './Brand.astro';
+import { company, product, registeredAddress } from '../config/company';
+---
+
+<footer class="site-footer theme-dark">
+  <div class="container">
+    <div class="site-footer__top">
+      <Brand size={28} />
+      <nav aria-label="Legal">
+        <ul role="list">
+          <li><a href="/terms">Terms &amp; Conditions</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/refund">Refund &amp; Cancellation</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    {
+      company.contactEmail && (
+        <p class="site-footer__contact">
+          <span>Contact</span> <a href={`mailto:${company.contactEmail}`}>{company.contactEmail}</a>
+        </p>
+      )
+    }
+
+    <p class="site-footer__legal">
+      © {company.copyrightYear} {company.legalName}. All rights reserved. {product.name} is a proprietary software platform owned, operated, and billed entirely by {company.legalName}, a company legally registered in {company.jurisdiction}. Registered Address: {registeredAddress}.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-block: clamp(2.5rem, 5vw, 3.5rem);
+    border-top: 1px solid var(--line);
+    background: var(--navy-975);
+  }
+
+  .site-footer__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem 2rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+  }
+
+  a {
+    color: var(--grey-300);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration-color: rgb(201 211 225 / 0.35);
+    text-underline-offset: 0.3em;
+  }
+
+  a:hover {
+    color: var(--white);
+    text-decoration-color: currentColor;
+  }
+
+  .site-footer__contact {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.875rem;
+    margin-top: 1.5rem;
+  }
+
+  .site-footer__contact span {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  /* The legal entity statement reviewers look for: sized for easy reading. */
+  .site-footer__legal {
+    max-width: 62rem;
+    margin-top: 1.25rem;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+</style>

@@ -1,0 +1,345 @@
+---
+import { company } from '../config/company';
+import { services, type ContactState } from '../lib/contact';
+
+interface Props {
+  state: ContactState;
+}
+
+const { status, values, errors } = Astro.props.state;
+const email = company.contactEmail;
+---
+
+<section id="contact" class="section contact theme-light" aria-labelledby="contact-title">
+  <div class="container">
+    <p class="section-label"><span>04</span> Contact</p>
+
+    <div class="contact__layout">
+      <div class="contact__intro">
+        <h2 id="contact-title">Contact Us</h2>
+        <p>
+          Questions about Visifluent, SEO and web services, or courses and training? Send us a message and we reply within two business days.
+        </p>
+        {
+          email && (
+            <p class="contact__direct">
+              Prefer email? Write to <a href={`mailto:${email}`}>{email}</a>.
+            </p>
+          )
+        }
+      </div>
+
+      <div class="contact__panel">
+        {
+          status === 'sent' && (
+            <div class="notice notice--ok" role="status">
+              <strong>Thank you.</strong> Your message has been sent. We reply within two business days.
+              <a class="notice__link" href="/#contact">Send another message</a>
+            </div>
+          )
+        }
+        {
+          status === 'invalid' && (
+            <div class="notice notice--error" role="alert">
+              <strong>Please check the form.</strong> Some fields need your attention.
+            </div>
+          )
+        }
+        {
+          (status === 'unavailable' || status === 'failed') && (
+            <div class="notice notice--error" role="alert">
+              <strong>We could not send your message right now.</strong> Please try again later
+              {email ? <> or email us at <a href={`mailto:${email}`}>{email}</a></> : null}.
+            </div>
+          )
+        }
+
+        {
+          status !== 'sent' && (
+            <form class="form" method="post" action="/#contact">
+              <div class="form__grid">
+                <div class:list={['field', errors.name && 'field--error']}>
+                  <label for="cf-name">Full Name</label>
+                  <input
+                    id="cf-name"
+                    name="name"
+                    type="text"
+                    autocomplete="name"
+                    required
+                    maxlength="120"
+                    value={values.name}
+                    aria-invalid={errors.name ? 'true' : undefined}
+                    aria-describedby={errors.name ? 'cf-name-error' : undefined}
+                  />
+                  {errors.name && <p class="field__error" id="cf-name-error">{errors.name}</p>}
+                </div>
+
+                <div class:list={['field', errors.email && 'field--error']}>
+                  <label for="cf-email">Email Address</label>
+                  <input
+                    id="cf-email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    required
+                    maxlength="254"
+                    value={values.email}
+                    aria-invalid={errors.email ? 'true' : undefined}
+                    aria-describedby={errors.email ? 'cf-email-error' : undefined}
+                  />
+                  {errors.email && <p class="field__error" id="cf-email-error">{errors.email}</p>}
+                </div>
+
+                <div class:list={['field', errors.phone && 'field--error']}>
+                  <label for="cf-phone">Phone Number (Optional)</label>
+                  <input
+                    id="cf-phone"
+                    name="phone"
+                    type="tel"
+                    autocomplete="tel"
+                    inputmode="tel"
+                    maxlength="30"
+                    value={values.phone}
+                    aria-invalid={errors.phone ? 'true' : undefined}
+                    aria-describedby={errors.phone ? 'cf-phone-error' : undefined}
+                  />
+                  {errors.phone && <p class="field__error" id="cf-phone-error">{errors.phone}</p>}
+                </div>
+
+                <div class:list={['field', errors.service && 'field--error']}>
+                  <label for="cf-service">Service Interested In</label>
+                  <select
+                    id="cf-service"
+                    name="service"
+                    required
+                    aria-invalid={errors.service ? 'true' : undefined}
+                    aria-describedby={errors.service ? 'cf-service-error' : undefined}
+                  >
+                    <option value="" disabled selected={!values.service}>Select a service</option>
+                    {services.map((service) => (
+                      <option value={service} selected={values.service === service}>{service}</option>
+                    ))}
+                  </select>
+                  {errors.service && <p class="field__error" id="cf-service-error">{errors.service}</p>}
+                </div>
+
+                <div class:list={['field', 'field--full', errors.message && 'field--error']}>
+                  <label for="cf-message">Message</label>
+                  <textarea
+                    id="cf-message"
+                    name="message"
+                    rows="6"
+                    required
+                    minlength="10"
+                    maxlength="2000"
+                    aria-invalid={errors.message ? 'true' : undefined}
+                    aria-describedby={errors.message ? 'cf-message-error' : undefined}>{values.message}</textarea>
+                  {errors.message && <p class="field__error" id="cf-message-error">{errors.message}</p>}
+                </div>
+              </div>
+
+              {/* Spam trap: people never see or fill this; most bots do. */}
+              <div class="hp" aria-hidden="true">
+                <label for="cf-hp">Leave this field empty</label>
+                <input id="cf-hp" name="hp_url" type="text" tabindex="-1" autocomplete="off" />
+              </div>
+
+              <div class="consent">
+                <input id="cf-consent" name="consent" type="checkbox" value="yes" checked={values.consent} />
+                <label for="cf-consent">I agree to receive communications and service updates from {company.legalName} via email or SMS at the contact details provided. Message and data rates may apply. Reply STOP to opt out. View our <a href="/terms" target="_blank" rel="noopener" aria-label="Terms &amp; Conditions (opens in a new tab)">Terms &amp; Conditions</a> and <a href="/privacy" target="_blank" rel="noopener" aria-label="Privacy Policy (opens in a new tab)">Privacy Policy</a>.</label>
+              </div>
+
+              <button class="button" type="submit">Submit</button>
+            </form>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    background: var(--white);
+  }
+
+  .contact__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    align-items: start;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    margin-top: 1.25rem;
+  }
+
+  .contact h2 {
+    font-size: clamp(1.875rem, 1.2rem + 2.2vw, 2.75rem);
+  }
+
+  .contact__intro p {
+    max-width: 30rem;
+    margin-top: 1.25rem;
+    font-size: 1.1875rem;
+    line-height: 1.7;
+  }
+
+  .contact__intro .contact__direct {
+    margin-top: 1rem;
+    font-size: 1rem;
+  }
+
+  .contact__direct a,
+  .notice a {
+    color: var(--accent-text);
+  }
+
+  .contact__panel {
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border: 1px solid var(--grey-200);
+    border-radius: 1.25rem;
+    background: var(--grey-50);
+  }
+
+  .notice {
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid;
+    border-radius: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .notice--ok {
+    border-color: rgb(27 92 196 / 0.35);
+    background: rgb(58 141 255 / 0.08);
+    color: var(--navy-900);
+  }
+
+  .notice--error {
+    border-color: #fda29b;
+    background: #fef3f2;
+    color: #912018;
+  }
+
+  .notice--error a {
+    color: inherit;
+  }
+
+  .notice__link {
+    display: inline-block;
+    margin-left: 0.75rem;
+    font-weight: 600;
+  }
+
+  .form__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .field {
+    display: grid;
+    align-content: start;
+    gap: 0.4rem;
+  }
+
+  .field--full {
+    grid-column: 1 / -1;
+  }
+
+  .field label {
+    color: var(--text);
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    padding: 0.8rem 0.9rem;
+    border: 1px solid var(--grey-500);
+    border-radius: 0.625rem;
+    background-color: var(--white);
+    color: var(--navy-900);
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .field select {
+    padding-right: 2.5rem;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235a6a82' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-position: right 0.9rem center;
+    background-repeat: no-repeat;
+  }
+
+  .field textarea {
+    min-height: 9rem;
+    resize: vertical;
+  }
+
+  .field--error input,
+  .field--error select,
+  .field--error textarea {
+    border-color: #b42318;
+  }
+
+  .field__error {
+    color: #b42318;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  /* Off-screen, not display:none, so simple bots still see and fill it. */
+  .hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    margin-top: 1.5rem;
+  }
+
+  .consent input {
+    flex: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: 0.2rem;
+    accent-color: var(--blue-700);
+  }
+
+  .consent label {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .consent a {
+    color: var(--accent-text);
+  }
+
+  .form .button {
+    margin-top: 1.5rem;
+    cursor: pointer;
+  }
+
+  @media (max-width: 56rem) {
+    .contact__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .form__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .form .button {
+      width: 100%;
+    }
+  }
+</style>

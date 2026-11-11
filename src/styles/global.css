@@ -1,0 +1,421 @@
+/*
+ * Global styles: reset, design tokens, base typography and the small set of
+ * shared components (container, button, labels, prose).
+ * Page- and component-specific styles live next to their markup.
+ */
+
+@layer reset, tokens, base, components;
+
+/* ───────────────────────── Reset ───────────────────────── */
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  * {
+    margin: 0;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  svg,
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font: inherit;
+  }
+
+  /* role="list" is set in the markup so screen readers keep list semantics. */
+  ul[role='list'] {
+    padding: 0;
+    list-style: none;
+  }
+}
+
+/* ─────────────────────── Design tokens ─────────────────────── */
+@layer tokens {
+  :root {
+    /* Navy: brand surfaces */
+    --navy-975: #050c18;
+    --navy-950: #08111f;
+    --navy-900: #0b1728;
+    --navy-850: #0f1f36;
+    --navy-800: #132843;
+
+    /* Azure: the single accent */
+    --blue-300: #9ccaff;
+    --blue-400: #6db0ff;
+    --blue-500: #3a8dff;
+    --blue-700: #1b5cc4;
+
+    /* Cool greys */
+    --grey-50: #f7f9fc;
+    --grey-100: #eef2f7;
+    --grey-200: #e0e6ef;
+    --grey-300: #c9d3e1;
+    --grey-400: #a0aec2;
+    --grey-500: #7a8aa1;
+    --grey-600: #5a6a82;
+    --grey-700: #43526a;
+    --white: #fff;
+
+    /* Type */
+    --font-sans: 'IBM Plex Sans Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+    /* Layout */
+    --container: 72rem;
+    --gutter: clamp(1.25rem, 4vw, 2.5rem);
+    --header-h: 4.25rem;
+    --radius: 0.75rem;
+  }
+
+  /*
+   * Surface themes. A section picks one and every component inside follows it.
+   * Contrast of each text/background pair is at least WCAG AA (most are AAA).
+   *
+   * `color` is set on the theme element itself: it is inherited as a resolved
+   * value, so without this a light section would keep the dark theme's text colour.
+   */
+  :root,
+  .theme-dark {
+    --text: var(--white);
+    --text-body: var(--grey-300);
+    --text-muted: var(--grey-400);
+    --line: rgb(255 255 255 / 0.1);
+    --accent: var(--blue-500);
+    --accent-text: var(--blue-300);
+    --focus: var(--blue-300);
+    color: var(--text-body);
+  }
+
+  .theme-light {
+    --text: var(--navy-900);
+    --text-body: var(--grey-700);
+    --text-muted: var(--grey-600);
+    --line: var(--grey-200);
+    --accent: var(--blue-700);
+    --accent-text: var(--blue-700);
+    --focus: var(--blue-700);
+    color: var(--text-body);
+  }
+}
+
+/* ───────────────────────── Base ───────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    min-height: 100dvh;
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--text-body);
+    background: var(--navy-975);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: var(--text);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 0.25rem;
+  }
+
+  ::selection {
+    background: var(--blue-400);
+    color: var(--navy-975);
+  }
+}
+
+/* ─────────────────── Shared components ─────────────────── */
+@layer components {
+  .container {
+    width: min(100% - 2 * var(--gutter), var(--container));
+    margin-inline: auto;
+  }
+
+  .skip-link {
+    position: absolute;
+    inset-block-start: 0.75rem;
+    inset-inline-start: 0.75rem;
+    z-index: 100;
+    padding: 0.625rem 1rem;
+    border-radius: 0.5rem;
+    background: var(--white);
+    color: var(--navy-950);
+    font-weight: 600;
+    text-decoration: none;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus {
+    transform: none;
+  }
+
+  /* Small mono label with a square accent bullet, e.g. above a page title. */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 1px;
+    background: var(--accent);
+  }
+
+  /* Numbered section label with a hairline that runs to the right edge. */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .section-label span {
+    color: var(--accent-text);
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    padding: 0.9rem 1.5rem;
+    border: 1px solid rgb(255 255 255 / 0.28);
+    border-radius: var(--radius);
+    background: var(--blue-500);
+    color: var(--navy-950);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.3),
+      0 12px 28px -12px rgb(58 141 255 / 0.7);
+    /*
+     * Deliberately no background-color transition: the fill must never be
+     * caught mid-fade by an automated screenshot (it was, once in ~20 headless
+     * captures, which rendered the call to action as an invisible ghost button).
+     */
+    transition: transform 0.15s ease;
+  }
+
+  .button:hover {
+    background: var(--blue-400);
+    transform: translateY(-1px);
+  }
+
+  .button:active {
+    transform: none;
+  }
+
+  .button svg {
+    flex: none;
+    transition: transform 0.15s ease;
+  }
+
+  .button:hover svg {
+    transform: translate(2px, -2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .button,
+    .button svg {
+      transition: none;
+    }
+
+    .button:hover,
+    .button:hover svg {
+      transform: none;
+    }
+  }
+
+  /* Long-form text (legal pages). */
+  .prose {
+    max-width: 44rem;
+    color: var(--text-body);
+  }
+
+  .prose > * + * {
+    margin-top: 1rem;
+  }
+
+  .prose h2 {
+    margin-top: 2.75rem;
+    font-size: 1.375rem;
+    letter-spacing: -0.01em;
+  }
+
+  .prose h2 + * {
+    margin-top: 0.75rem;
+  }
+
+  .prose ul {
+    padding-left: 1.25rem;
+    list-style: disc;
+  }
+
+  .prose li + li {
+    margin-top: 0.5rem;
+  }
+
+  .prose li::marker {
+    color: var(--text-muted);
+  }
+
+  .prose a {
+    color: var(--accent-text);
+  }
+
+  .prose strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .prose address {
+    font-style: normal;
+  }
+
+  .prose h3 {
+    margin-top: 1.75rem;
+    font-size: 1.0625rem;
+    letter-spacing: 0;
+  }
+
+  .prose h3 + * {
+    margin-top: 0.5rem;
+  }
+
+  .prose table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  .prose th,
+  .prose td {
+    padding: 0.75rem 1rem 0.75rem 0;
+    border-top: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .prose thead th {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .prose tbody th {
+    width: 32%;
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .prose tbody tr:last-child > * {
+    border-bottom: 1px solid var(--line);
+  }
+}
+
+/* ─────────────────── Print / PDF capture ───────────────────
+ * Reviewers often print or "save as PDF" a page for their records. Dark
+ * sections would come out as white text on white paper, so print is plain
+ * black on white, with link targets spelled out.
+ */
+@page {
+  margin: 18mm;
+}
+
+@media print {
+  *,
+  *::before,
+  *::after {
+    background: none !important;
+    border-color: #c8c8c8 !important;
+    box-shadow: none !important;
+    color: #000 !important;
+  }
+
+  .site-header,
+  .skip-link,
+  .hero__art,
+  .eyebrow::before {
+    display: none !important;
+  }
+
+  /* Spell out where the main call to action leads. */
+  .button[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    overflow-wrap: anywhere;
+  }
+}

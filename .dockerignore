@@ -1,0 +1,9 @@
+node_modules
+dist
+.astro
+.vercel
+.git
+.env
+.env.*
+.vscode
+npm-debug.log*

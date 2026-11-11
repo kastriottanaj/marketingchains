@@ -1,0 +1,179 @@
+---
+// DRAFT for review by qualified legal counsel before relying on it.
+// Sections 2-9 mirror the Terms published at visifluent.com/terms (last updated
+// 9 November 2026): refund window, renewal, notice periods, liability cap,
+// governing law. Sections 10-12 (services, courses, SMS/A2P) are specific to
+// this site. Keep the documents in sync when any changes, and bump
+// `legalPagesUpdated` in src/config/company.ts.
+import Legal from '../layouts/Legal.astro';
+import LegalContact from '../components/LegalContact.astro';
+import { company, founder, product, registeredAddress } from '../config/company';
+---
+
+<Legal
+  title="Terms & Conditions"
+  description="Terms and conditions for Marketing Chains LLC: the Visifluent SaaS platform, SEO and web services, courses and training, SMS and email communications, refunds, and Delaware governing law."
+  path="/terms"
+>
+  <h2>1. Who we are and what these Terms cover</h2>
+  <p>
+    These Terms &amp; Conditions (“Terms”) are an agreement between you and {company.legalName}, a limited liability company registered in {company.jurisdiction}, with its registered office at {registeredAddress} (“Marketing Chains,” “we,” or “us”). They apply to this website and to everything we offer: the {product.name} software-as-a-service platform at {product.domain}, SEO and website services, and training and courses. By using this website or buying from us you agree to these Terms. You must be at least 18, or the age of majority where you live, to buy from us or use {product.name}.
+  </p>
+  <p>
+    The Terms for the {product.name} service are also published at <a href={product.termsUrl}>{product.domain}/terms</a>. The two documents are meant to say the same thing. If they ever differ, the version at {product.domain} governs your use of {product.name}.
+  </p>
+  <p>
+    {company.legalName} also provides SEO and website services, and is launching training and courses through communities hosted on Skool. {company.legalName} sells and bills for all of them. SEO and website services are governed by section 10 and by the agreement or proposal for the work. Training and courses are governed by section 11, and Skool’s own terms and privacy policy also apply to your account there.
+  </p>
+
+  <h2>2. The {product.name} platform (software as a service)</h2>
+  <p>
+    {product.name} is a business-to-business software-as-a-service platform. It helps businesses audit their websites, track search rankings and brand visibility in AI answers, and suggests fixes. It draws on data from Google, Bing, DataForSEO, and AI providers, and monitors AI assistants including ChatGPT, Perplexity, Claude, Gemini, and Google AI Mode. That data, and the answers the AI gives, can be incomplete, out of date, or wrong. Use your own judgment. We do not promise any ranking, traffic, or business result.
+  </p>
+
+  <h2>3. Your account</h2>
+  <p>
+    You sign in to {product.name} with a Google account. You are responsible for everything that happens under your account, so keep access to it secure. We may limit new sign-ups, for example to invited users.
+  </p>
+  <p>
+    Plans with seats let you invite teammates. Teammates get full access to your account, you are responsible for what they do, and you can remove their seats at any time.
+  </p>
+
+  <h2>4. Your content</h2>
+  <p>
+    You keep ownership of the content you add to {product.name}, such as your websites, keywords, notes, files, content drafts, and report branding. You give us a limited license to store and process that content only to run the service for you.
+  </p>
+
+  <h2>5. Acceptable use</h2>
+  <p>You agree not to:</p>
+  <ul>
+    <li>use the website or our services for anything unlawful;</li>
+    <li>harm or overload any website. Site audits must follow the limits on our <a href={product.crawlerUrl}>crawler page</a>;</li>
+    <li>bypass daily limits, share an account, or resell or copy the service;</li>
+    <li>scrape, reverse engineer, or interfere with the service, or upload malware to it; or</li>
+    <li>use the AI features to produce unlawful, deceptive, or harmful content.</li>
+  </ul>
+
+  <h2>6. Sanctions and export laws</h2>
+  <p>
+    You may not use our services if you are in, or a resident of, a comprehensively sanctioned U.S. region; if you appear on a U.S. restricted-party list; or for any purpose that U.S. export, sanctions, or trade laws prohibit. We may refuse or end service to comply with those laws.
+  </p>
+
+  <h2>7. Connected services and limits</h2>
+  <p>
+    You can connect services such as Google Search Console, Google Analytics, Google Merchant Center, and Bing Webmaster Tools. Those services are governed by their own terms, and you can disconnect them in Settings. Each account has daily allowances for costly actions, shown in Settings, and we may change them.
+  </p>
+
+  <h2>8. Paid plans, billing, and renewal</h2>
+  <p>
+    {product.name} has a Free plan and paid plans. Current features, limits, and prices are on the <a href={product.pricingUrl}>pricing page</a>. Paid plans may not yet be open to everyone, and nothing is charged unless you choose a paid plan and confirm the purchase. Features marked “Planned” are not built yet, and joining a waitlist creates no commitment.
+  </p>
+  <ul>
+    <li>Paid plans are billed in advance, in US dollars, monthly or yearly.</li>
+    <li>They renew automatically at the then-current price until you cancel.</li>
+    <li>If we change a price, we email you at least 30 days before it applies to your next renewal, and you can cancel first.</li>
+    <li>Prices exclude taxes. Sales tax or VAT is added where required and shown before you confirm.</li>
+    <li>Payments are processed by Stripe. Your card details go to Stripe, and we do not see or store card numbers.</li>
+    <li>If a payment fails, your account may move to the Free plan. Your data is kept.</li>
+  </ul>
+  <p>
+    Training and courses are launching soon, and nothing is charged until they are available. You pay for them by credit card through Skool, which processes the payment with its payment provider, Stripe. We do not see or store card numbers.
+  </p>
+
+  <h2>9. Cancelling, refunds, and disputes</h2>
+  <p>The same terms, in plain summary form, are on our <a href="/refund">Refund &amp; Cancellation Policy</a> page. They apply to {product.name} plans and, in the same way, to training and courses once those are available.</p>
+  <ul>
+    <li>You can cancel at any time in Settings or by emailing us. Your plan stays active until the end of the period you paid for, then moves to the Free plan. Cancelling does not delete your data.</li>
+    <li>If you ask us within 14 days of your first payment for a plan, we refund that payment in full.</li>
+    <li>After 14 days we do not refund a period you have already paid for, but you can cancel to stop the next renewal.</li>
+    <li>Refunds go back to the original card and usually take 5 to 10 business days.</li>
+    <li>If you think you were charged incorrectly, contact us before disputing the charge with your bank. We reply within two business days and refund any charge that was our error.</li>
+    <li>If the law gives you a right to cancel or to a refund that these Terms do not, that right stays.</li>
+    <li>Deleting your account cancels a paid plan. The paid period is not refunded, except as described above.</li>
+  </ul>
+
+  <h2>10. SEO and website services (consulting)</h2>
+  <p>
+    We provide SEO, website design and development, and related consulting to businesses and private clients.
+  </p>
+  <ul>
+    <li><strong>Scope.</strong> Each engagement is described in a proposal, statement of work, or written agreement that sets out the scope, fees, timeline, and deliverables. If it conflicts with these Terms, it controls for that work.</li>
+    <li><strong>No guaranteed results.</strong> Search rankings, traffic, and revenue depend on factors outside our control, including search engines and AI assistants. We do not guarantee any ranking, traffic, or business result.</li>
+    <li><strong>Your responsibilities.</strong> You give us timely access and accurate information, you confirm that you have the right to the materials you give us, and you remain responsible for your website’s content and for your business’s compliance with the law.</li>
+    <li><strong>Fees.</strong> Fees are as stated in the proposal or invoice, in US dollars unless it says otherwise, and exclude taxes. Invoices are payable as stated on the invoice.</li>
+    <li><strong>Ownership.</strong> Ownership of deliverables is set out in the proposal or agreement. We keep our pre-existing tools, methods, templates, and software.</li>
+    <li><strong>Confidentiality.</strong> We keep non-public information you share with us confidential and use it only to do the work.</li>
+    <li><strong>Ending an engagement.</strong> Either of us can end an engagement by written notice. Cancellation and refund terms are on our <a href="/refund">Refund &amp; Cancellation Policy</a> page.</li>
+  </ul>
+
+  <h2>11. Training and courses</h2>
+  <p>
+    Training and courses, including access to communities hosted on Skool, are launching soon. Nothing is charged until they are available.
+  </p>
+  <ul>
+    <li><strong>Personal access.</strong> Your access is for you only. You may not share your login or access, or copy, record, resell, or redistribute course materials.</li>
+    <li><strong>License.</strong> We license course materials to you for your own use. We keep all rights in them.</li>
+    <li><strong>No guaranteed results.</strong> Training is educational. We do not promise any ranking, traffic, income, or business result, and your results depend on your own work and market.</li>
+    <li><strong>Community conduct.</strong> Be respectful and do not post spam or unlawful content. We may remove members who break these rules. Skool’s own terms also apply to your account there.</li>
+    <li><strong>Payment and refunds.</strong> Payment is by credit card through Skool. The billing, cancellation, and refund terms in sections 8 and 9 apply in the same way as for {product.name} plans.</li>
+  </ul>
+
+  <h2>12. SMS &amp; Electronic Communications (A2P Compliance)</h2>
+  <p>
+    When we send text messages (SMS) and emails, we send them only to people who have opted in. When you tick the consent box on our contact form, you agree to receive communications and service updates from {company.legalName} by email or SMS at the contact details you provide.
+  </p>
+  <ul>
+    <li><strong>Opt-in only.</strong> You only receive messages from us after you opt in. We do not send marketing messages to anyone who has not opted in. Consent to receive SMS is not a condition of buying any product or service, and you can use our contact form without ticking the box.</li>
+    <li><strong>What we send.</strong> Replies to your inquiry, service updates, and information about our products and services. Message frequency varies.</li>
+    <li><strong>Rates.</strong> Message and data rates may apply. Standard rates from your mobile carrier apply to the messages we send and to your replies.</li>
+    <li><strong>Opt out.</strong> Reply STOP to any text message at any time to opt out of SMS. We will send one final message to confirm, and then no more texts. To stop emails, use the unsubscribe link in the email or write to us.</li>
+    <li><strong>Help.</strong> Reply HELP to any text message, or email us{company.contactEmail ? <> at <a href={`mailto:${company.contactEmail}`}>{company.contactEmail}</a></> : null}.</li>
+    <li><strong>Carriers.</strong> Mobile carriers and network operators are not liable for delayed or undelivered messages.</li>
+    <li><strong>Your phone number.</strong> We do not sell or share mobile numbers or opt-in consent data with third parties for marketing purposes. See our <a href="/privacy">Privacy Policy</a>.</li>
+  </ul>
+
+  <h2>13. Availability and changes</h2>
+  <p>
+    We do not guarantee that our services will be uninterrupted or error-free. We may add, change, or remove features, and may pause the service for maintenance. Export your own copies of reports (PDF or Word) if you need to keep them.
+  </p>
+
+  <h2>14. Ending your use</h2>
+  <p>
+    You can stop using {product.name} and delete your account in Settings; the <a href="/privacy">Privacy Policy</a> explains what deletion removes. We may suspend or end your access if you break these Terms, if you put the service or others at risk, or if we discontinue the service. Where we can, we give notice and time to export your reports.
+  </p>
+
+  <h2>15. Intellectual property, third-party names, and links</h2>
+  <p>
+    The website, the {product.name} software, and the Marketing Chains and {product.name} names and logos are owned by or licensed to {company.legalName}. All rights are reserved except the limited rights these Terms give you.
+  </p>
+  <p>
+    Third-party product and company names mentioned on this website, including ChatGPT, Perplexity, Claude, Gemini, Google, and Bing, belong to their respective owners. They are used for identification only and do not imply any affiliation with, or endorsement by, those owners.
+  </p>
+  <p>
+    This website links to other websites, including {product.domain}, the personal website of {founder.name}, a community hosted on Skool, and a LinkedIn profile. We are not responsible for the content or practices of websites that we do not operate.
+  </p>
+
+  <h2>16. No warranty</h2>
+  <p>
+    As far as the law allows, the website and our services are provided “as is” and “as available,” without warranties of any kind, including accuracy, fitness for a particular purpose, and non-infringement.
+  </p>
+
+  <h2>17. Limit of liability</h2>
+  <p>
+    As far as the law allows, we are not liable for indirect or consequential losses, or for lost profits, traffic, revenue, or data. Our total liability for any claim is limited to the greater of what you paid us in the 12 months before the claim and US$100. Some places do not allow these limits, and in those places they apply only as far as the law permits.
+  </p>
+
+  <h2>18. Governing law</h2>
+  <p>
+    These Terms are governed by the laws of the State of Delaware and the United States, without regard to conflict-of-laws rules, and the courts there have jurisdiction. If you are a consumer in the EU or elsewhere, you keep the protections that your local consumer law gives you.
+  </p>
+
+  <h2>19. Changes to these Terms</h2>
+  <p>
+    We may update these Terms. The “Last updated” date at the top of this page shows when they last changed, and we will email you before material changes take effect. If you keep using our services after a change takes effect, you accept the revised Terms.
+  </p>
+
+  <h2>20. Contact</h2>
+  <p>Questions about these Terms can be sent to:</p>
+  <LegalContact />
+</Legal>
