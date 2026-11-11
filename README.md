@@ -70,7 +70,7 @@ The contact form on the home page posts back to the site and emails each submiss
 | `CONTACT_FROM` | yes | A sender on a domain verified in Resend, e.g. `Marketing Chains LLC <contact@visifluent.com>` |
 | `CONTACT_TO` | no | Where submissions go. Defaults to the contact email in `company.ts` |
 
-On Vercel, add them with `npx vercel env add RESEND_API_KEY production` (it prompts for the value) or in the project settings, then redeploy. For a Node server, set them in the environment before `npm start`. The SMS consent box is optional on purpose: carriers expect that SMS consent is not a condition of contacting you. To make it required, add `required` to the checkbox in `ContactSection.astro`.
+On the Hetzner server, run `/opt/marketingchains/deploy/set-resend-key.sh`: it asks for the key with hidden input, saves it to `.env`, and restarts the site. On Vercel, add them with `npx vercel env add RESEND_API_KEY production` (it prompts for the value) or in the project settings, then redeploy. For a Node server, set them in the environment before `npm start`. The SMS consent box is optional on purpose: carriers expect that SMS consent is not a condition of contacting you. To make it required, add `required` to the checkbox in `ContactSection.astro`.
 
 ## Where things live
 
