@@ -6,7 +6,8 @@
 	reverse_proxy {$UPSTREAM:app:4321}
 }
 
-# Optional: if www.<domain> also points at this server, uncomment to redirect it.
-# www.{$SITE_DOMAIN} {
-# 	redir https://{$SITE_DOMAIN}{uri} permanent
-# }
+# www.<domain> must also point at this server (a CNAME to the bare domain works).
+# If it does not, delete this block, or Caddy will keep failing to get a certificate for it.
+www.{$SITE_DOMAIN} {
+	redir https://{$SITE_DOMAIN}{uri} permanent
+}
