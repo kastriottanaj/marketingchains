@@ -15,10 +15,11 @@ export const company = {
   },
   copyrightYear: 2026,
   /**
-   * Shown on the legal pages. This is the contact address published on
-   * visifluent.com/contact; set it to undefined to hide it.
+   * Shown in the footer, the contact section, and the legal pages, and the
+   * default recipient of contact-form notifications (override with CONTACT_TO).
+   * Set it to undefined to hide it.
    */
-  contactEmail: 'info@visifluent.com' as string | undefined,
+  contactEmail: 'kastriot@marketingchains.com' as string | undefined,
   /** Shown as "Last updated" on /terms and /privacy. Bump it when the text changes. */
   legalPagesUpdated: 'November 11, 2026',
 } as const;

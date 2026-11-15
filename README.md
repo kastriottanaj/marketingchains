@@ -87,6 +87,6 @@ On the Hetzner server, run `/opt/marketingchains/deploy/set-resend-key.sh`: it a
 
 1. **Have a lawyer review `/terms`, `/privacy`, and `/refund`.** They are drafts, not legal advice. They mirror the Terms and Privacy Policy published at visifluent.com (refund window, renewal, notice periods, liability cap, data handling), so **update both places together** when either changes (sections 8 to 11 of `/terms` and `/refund` repeat the same cancellation and refund terms), and bump `legalPagesUpdated` in `company.ts`. The terms for SEO and website services and for courses are defaults chosen for this site.
 2. **Set the contact-form variables** above, send a real test message, and confirm it reaches the mailbox.
-3. **Check the contact email** in `company.ts` (`info@visifluent.com`, the address published on visifluent.com/contact).
+3. **Check the contact email** in `company.ts` (`kastriot@marketingchains.com`, on the company's own domain). Make sure that mailbox really receives mail: it is shown publicly and is the default recipient of form notifications.
 4. **Set `SITE_URL`** when building for production (Docker does this from `SITE_DOMAIN`).
 5. **If you add analytics or any script**, update the privacy policy (it states that the site sets no cookies and uses no trackers) and loosen the CSP in `src/middleware.ts` to match. If you actually send text messages, register the campaign with your SMS provider and keep the consent wording in `src/lib/contact.ts` identical to what you registered.
