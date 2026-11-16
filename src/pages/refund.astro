@@ -7,7 +7,7 @@
 // `legalPagesUpdated` in src/config/company.ts.
 import Legal from '../layouts/Legal.astro';
 import LegalContact from '../components/LegalContact.astro';
-import { company, product } from '../config/company';
+import { community, company, product } from '../config/company';
 ---
 
 <Legal
@@ -45,7 +45,7 @@ import { company, product } from '../config/company';
 
   <h2>Training and courses</h2>
   <p>
-    Training and courses are launching soon, and nothing is charged until they are available. {company.legalName} sells them through its community on Skool, where you pay by credit card. Skool and its payment provider process the payment, and we do not see or store card numbers. The same terms apply as for {product.name}:
+    Training and courses are launching soon, and nothing is charged until they are available. {company.legalName} sells them through its community on Skool, <a href={community.url}>{community.name}</a>, where you pay by credit card. Skool and its payment provider process the payment, and we do not see or store card numbers. The same terms apply as for {product.name}:
   </p>
   <ul>
     <li>If you ask us within 14 days of your first payment, we refund that payment in full.</li>

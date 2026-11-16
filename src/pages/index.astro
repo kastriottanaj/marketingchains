@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import ContactSection from '../components/ContactSection.astro';
-import { company, founder, product } from '../config/company';
+import { community, company, founder, product } from '../config/company';
 import { emptyValues, sendContactEmail, validateContact, type ContactState } from '../lib/contact';
 
 // ── Contact form ──────────────────────────────────────────────────────────
@@ -276,7 +276,7 @@ const person = {
             </svg>
           </div>
           <p class="card__text">
-            <strong>Transparent Monetization:</strong> Marketing Chains LLC generates revenue through transparent, recurring monthly and annual software subscription models, and through SEO and website services, with training and courses launching soon. Marketing Chains LLC sells and bills for all of them.
+            <strong>Transparent Monetization:</strong> Marketing Chains LLC generates revenue through transparent, recurring monthly and annual software subscription models, and through SEO and website services, with training and courses ({community.name} on Skool) launching soon. Marketing Chains LLC sells and bills for all of them.
           </p>
         </li>
       </ul>
@@ -324,10 +324,10 @@ const person = {
               </a>
             </li>
             <li>
-              <a href={founder.communityUrl}>
+              <a href={community.url}>
                 <span>
-                  <span class="profile__label">Community on Skool</span>
-                  <span class="profile__value">{founder.communityName}</span>
+                  <span class="profile__label">Training community on Skool</span>
+                  <span class="profile__value">{community.name}</span>
                 </span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M7 17 17 7"></path>

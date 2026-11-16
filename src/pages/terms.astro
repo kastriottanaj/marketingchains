@@ -7,7 +7,7 @@
 // `legalPagesUpdated` in src/config/company.ts.
 import Legal from '../layouts/Legal.astro';
 import LegalContact from '../components/LegalContact.astro';
-import { company, founder, product, registeredAddress } from '../config/company';
+import { community, company, founder, product, registeredAddress } from '../config/company';
 ---
 
 <Legal
@@ -23,7 +23,7 @@ import { company, founder, product, registeredAddress } from '../config/company'
     The Terms for the {product.name} service are also published at <a href={product.termsUrl}>{product.domain}/terms</a>. The two documents are meant to say the same thing. If they ever differ, the version at {product.domain} governs your use of {product.name}.
   </p>
   <p>
-    {company.legalName} also provides SEO and website services, and is launching training and courses through communities hosted on Skool. {company.legalName} sells and bills for all of them. SEO and website services are governed by section 10 and by the agreement or proposal for the work. Training and courses are governed by section 11, and Skool’s own terms and privacy policy also apply to your account there.
+    {company.legalName} also provides SEO and website services, and is launching training and courses through its community on Skool, <a href={community.url}>{community.name}</a> ({community.label}). {company.legalName} sells and bills for all of them. SEO and website services are governed by section 10 and by the agreement or proposal for the work. Training and courses are governed by section 11, and Skool’s own terms and privacy policy also apply to your account there.
   </p>
 
   <h2>2. The {product.name} platform (software as a service)</h2>
@@ -108,7 +108,7 @@ import { company, founder, product, registeredAddress } from '../config/company'
 
   <h2>11. Training and courses</h2>
   <p>
-    Training and courses, including access to communities hosted on Skool, are launching soon. Nothing is charged until they are available.
+    Training and courses, including access to our Skool community <a href={community.url}>{community.name}</a>, are launching soon. Nothing is charged until they are available.
   </p>
   <ul>
     <li><strong>Personal access.</strong> Your access is for you only. You may not share your login or access, or copy, record, resell, or redistribute course materials.</li>
@@ -150,7 +150,7 @@ import { company, founder, product, registeredAddress } from '../config/company'
     Third-party product and company names mentioned on this website, including ChatGPT, Perplexity, Claude, Gemini, Google, and Bing, belong to their respective owners. They are used for identification only and do not imply any affiliation with, or endorsement by, those owners.
   </p>
   <p>
-    This website links to other websites, including {product.domain}, the personal website of {founder.name}, a community hosted on Skool, and a LinkedIn profile. We are not responsible for the content or practices of websites that we do not operate.
+    This website links to other websites, including {product.domain}, the personal website of {founder.name}, our community on Skool ({community.name}), and a LinkedIn profile. We are not responsible for the content or practices of websites that we do not operate.
   </p>
 
   <h2>16. No warranty</h2>

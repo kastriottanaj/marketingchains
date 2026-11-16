@@ -42,9 +42,17 @@ export const founder = {
   websiteLabel: 'kastriottanaj.com',
   linkedinUrl: 'https://www.linkedin.com/in/seo-kastriot-tanaj/',
   linkedinLabel: 'linkedin.com/in/seo-kastriot-tanaj',
-  communityName: 'AI SEO - Marketing Hub',
-  communityUrl: 'https://www.skool.com/ai-seo-marketing-club-6607/about',
-  communityLabel: 'skool.com/ai-seo-marketing-club-6607/about',
+} as const;
+
+/**
+ * The training community on Skool, sold and billed by Marketing Chains LLC.
+ * The name must match the community's name on Skool exactly, because banks and
+ * payment reviewers compare the two. Update all three fields if it changes.
+ */
+export const community = {
+  name: 'AI SEO - Marketing Hub',
+  url: 'https://www.skool.com/ai-seo-marketing-club-6607/about',
+  label: 'skool.com/ai-seo-marketing-club-6607',
 } as const;
 
 /** "8 The Green STE R, Dover, DE 19901" */

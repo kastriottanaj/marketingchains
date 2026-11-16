@@ -9,7 +9,7 @@
 // describes this site as built; update it if you add analytics.
 import Legal from '../layouts/Legal.astro';
 import LegalContact from '../components/LegalContact.astro';
-import { company, product, registeredAddress } from '../config/company';
+import { community, company, product, registeredAddress } from '../config/company';
 ---
 
 <Legal
@@ -51,7 +51,7 @@ import { company, product, registeredAddress } from '../config/company';
 
   <h3>In training and courses</h3>
   <p>
-    Training and courses are launching soon, and members join through a community hosted on Skool. When you buy and join, we receive the information Skool shares with community owners, such as your name, email address, and activity in the community. You pay by credit card at Skool’s checkout. Skool and its payment provider, Stripe, process the payment, and we do not see or store card numbers. Skool collects and uses your information under its own terms and privacy policy.
+    Training and courses are launching soon, and members join our community on Skool, <a href={community.url}>{community.name}</a>. When you buy and join, we receive the information Skool shares with community owners, such as your name, email address, and activity in the community. You pay by credit card at Skool’s checkout. Skool and its payment provider, Stripe, process the payment, and we do not see or store card numbers. Skool collects and uses your information under its own terms and privacy policy.
   </p>
 
   <h3>For SEO and website services</h3>
