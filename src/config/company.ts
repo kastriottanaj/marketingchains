@@ -42,9 +42,9 @@ export const founder = {
   websiteLabel: 'kastriottanaj.com',
   linkedinUrl: 'https://www.linkedin.com/in/seo-kastriot-tanaj/',
   linkedinLabel: 'linkedin.com/in/seo-kastriot-tanaj',
-  communityName: 'AI SEO - Marketing Club',
-  communityUrl: 'https://www.skool.com/ai-seo-marketing-club-6607',
-  communityLabel: 'skool.com/ai-seo-marketing-club-6607',
+  communityName: 'AI SEO - Marketing Hub',
+  communityUrl: 'https://www.skool.com/ai-seo-marketing-club-6607/about',
+  communityLabel: 'skool.com/ai-seo-marketing-club-6607/about',
 } as const;
 
 /** "8 The Green STE R, Dover, DE 19901" */
